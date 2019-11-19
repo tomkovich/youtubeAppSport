@@ -1,0 +1,52 @@
+.header {
+    height: 80px;
+    color: #fff;
+    background: linear-gradient(90.58deg, #585FE6 0.04%, #151FDB 99.47%);
+    display: flex;
+    align-items: center;
+}
+
+.itemWrap.home {
+    width: 10%;
+}
+
+.itemWrap {
+    border-right: 1px solid rgba(255, 255, 255, .3);
+    width: 45%;
+    text-align: center;
+    height: 100%;
+}
+
+.itemWrap a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 19px;
+    font-weight: bold;
+    width: 100%;
+    height: 100%;
+    display: block;
+    line-height: 80px;
+    transition: background-color .2s ease-in-out;
+}
+
+.itemWrap a:hover {
+    background-color: #FFAE47;
+}
+
+.activeLink {
+    background-color: #FFAE47 !important;
+}
+
+.itemWrap .cardio, .itemWrap .strenghts {
+    background-repeat: no-repeat;
+    background-position: 38% center;
+    background-size: 5%;
+}
+
+.itemWrap .cardio {
+    background-image: url('./../../assets/img/running-man.svg');
+}
+
+.itemWrap .strenghts {
+    background-image: url('./../../assets/img/weight.svg');
+}

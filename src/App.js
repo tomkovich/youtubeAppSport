@@ -1,26 +1,82 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer, useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
 
-function App() {
+import "./App.css";
+
+import Header from "./components/header/Header";
+import Content from "./components/content/Content";
+import {
+  initialState,
+  reducer,
+  setCardioTraining,
+  setStrengthTraining,
+  removeCardioTraining,
+  removeStrengthTraining,
+  editCardioTraining,
+  editStrengthTraining
+} from "./reducers/reducer-training";
+import Client from './contenful';
+import { itemsReducer, itemsData, setTrainingsData } from "./reducers/reducer-data";
+
+const App = () => {
+  
+  const [data, dispatch] = useReducer(reducer, initialState);
+  const [items, dispatchItems] = useReducer(itemsReducer, itemsData);
+
+  let getTrainingData = async () => {
+    try {
+      let response = await Client.getEntries();
+      dispatchItems(setTrainingsData(response));
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    getTrainingData();
+  }, [])
+
+  let addCardioTraining = data => {
+    dispatch(setCardioTraining(data));
+  };
+
+  let addStrengthTraining = data => {
+    dispatch(setStrengthTraining(data));
+  };
+
+  let deleteCardioTraining = id => {
+    dispatch(removeCardioTraining(id));
+  };
+
+  let deleteStrengthTraining = id => {
+    dispatch(removeStrengthTraining(id));
+  };
+
+  let updateCardioTraining = (newItem, id) => {
+    dispatch(editCardioTraining(newItem, id));
+  };
+
+  let updateStrengthTraining = (newItem, id) => {
+    dispatch(editStrengthTraining(newItem, id));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="appContainer">
+        <Header />
+        <Content
+          state={data}
+          items={items}
+          deleteStrengthTraining={deleteStrengthTraining}
+          deleteCardioTraining={deleteCardioTraining}
+          addCardioTraining={addCardioTraining}
+          addStrengthTraining={addStrengthTraining}
+          updateCardioTraining={updateCardioTraining}
+          updateStrengthTraining={updateStrengthTraining}
+        />
+      </div>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
